@@ -1,0 +1,61 @@
+body {
+    .form {
+        .form-login {
+            max-width: 320px;            
+            margin: 0 auto;
+
+            .row {
+                margin-bottom: 20px;
+            }
+
+            .input-border {
+                height: auto !important;
+
+                input {
+                    border: 2px solid #ededed !important;
+                    border-radius: 4px;
+                    -moz-border-radius: 4px;
+                    -webkit-border-radius: 4px;
+                    height: 40px !important;
+                    margin-top: 0px !important;
+                    padding: 10px !important;
+                }
+
+                label {
+                    top: 5px !important;
+                    left: 15px !important;
+                    background: #ffffff;
+                    z-index: 9;
+                    padding: 5px;
+                    font-size: 14px;
+                    font-weight: normal;
+                }
+            }
+
+            .btn-save {
+                margin-top: 0px !important;
+                float: left;
+            }
+
+            .checkbox {
+                float: right;
+                width: auto !important;
+                margin-top: 0px !important;
+
+                label {
+                    top: 0px !important;
+                    left: -5px;
+                    padding-left: 0px;
+                }
+            }
+        }
+    }
+}
+
+.checkbox svg:first-of-type {
+    fill: #666666 !important;
+}
+
+.checkbox svg:last-of-type {
+    fill: #fd8b28 !important;
+}

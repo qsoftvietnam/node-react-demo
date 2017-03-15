@@ -1,0 +1,17 @@
+{
+    "name": "apidoc-hospital",
+    "version": "1.0.0",
+    "description": "Hospital docs",
+    "title": "Custom apiDoc browser title",
+    "url": "http://example.com",
+    "header": {
+        "filename": "header.md"
+    },
+    "footer": {
+        "filename": "footer.md"
+    },
+    "template": {
+        "withCompare": true,
+        "withGenerator": true
+    }
+}

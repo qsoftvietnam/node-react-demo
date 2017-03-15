@@ -1,0 +1,6 @@
+//--- Patients ---
+export const PATIENT_FETCH = 'PATIENT_FETCH';
+export const PATIENT_RESET = 'PATIENT_RESET';
+export const PATIENT_SAVE = 'PATIENT_SAVE';
+export const PATIENT_SAVE_FAILD = 'PATIENT_SAVE_FAILD';
+export const PATIENT_SAVE_ERROR = 'PATIENT_SAVE_ERROR';

@@ -1,0 +1,181 @@
+.search-box {
+  padding: 30px 15px;
+  background-color: #aaaaaa;
+
+  input, button {
+    height: 40px;
+  }
+}
+
+.cover-list {
+    background-color: #f9f9f9;
+    overflow: hidden;
+    padding: 15px 30px;
+}
+
+.media-content {
+  width: 40%;
+}
+
+.lbl-title {
+  float: left;
+  margin-right: 5px;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.lbl-new {
+    background: #83cd1f;
+    font-weight: normal;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    position: relative;
+    float: left;
+}
+
+.lbl-new:before {
+  display: block;
+  content: "";
+  border-left: 10px solid #83cd1f;;
+  border-top: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  position: absolute;
+  top: 0px;
+  right: -20px;
+}
+
+.filter-box {
+  .filter-box-inner {
+    padding: 25px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #ffffff;
+    .f-b-item {
+      &:first-child {
+        margin-bottom: 25px;
+      }
+
+      .control-label {
+        padding: 5px 0px;
+        color: #b4b4b4;
+        font-size: 14px;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.wrapper-patient-list {
+  .inner-patient-list{
+    padding: 25px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #ffffff;
+    min-height: 215px;
+  }
+
+  .patient-list-title {
+    margin: 0;
+  }
+
+  .patient-list {
+    padding-top: 30px;
+
+    .media {
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ececec;
+      .media-heading {
+        p {
+          text-transform: capitalize;
+          overflow: hidden;
+        }
+      }
+    }
+
+    .p-l-state {
+      padding: 5px 0px;
+      color: #a7a7a7;
+      span {
+        padding: 0px 10px;
+        position: relative;
+
+        &:first-child {
+          padding-left: 0px;
+        }
+
+        &::after {
+          color: #bebebe;
+          content: "\2022";
+          position: absolute;
+          right: -5px;
+        }
+
+        &:last-child {
+          &::after {
+            content: "";
+          }
+        }
+
+        a {
+          color: #24b8d7;
+          cursor: pointer;
+
+          &:hover, &:active, &:focus, &:visited {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
+    .p-l-timestamp {
+      padding: 5px 0px;
+      color: #a7a7a7;
+
+      .p-l-timestamp-item {
+        float: left;
+        padding: 0px 10px;
+        position: relative;
+
+        &:first-child {
+          padding-left: 0px;
+        }
+
+        &::after {
+          color: #bebebe;
+          content: "\2022";
+          position: absolute;
+          right: -5px;
+        }
+
+        &:last-child {
+          &::after {
+            content: "";
+          }
+        }
+      }
+
+      .p-l-t-time {
+        color: #343434;
+      }
+    }
+
+    .p-l-location {
+      height: 100%;
+      vertical-align: middle;
+      border-right: 1px dashed #cecece;
+      padding: 0px 30px;
+
+      .p-l-location-inner {
+        i {
+          color: #4f4f4f;
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+}

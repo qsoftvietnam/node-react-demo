@@ -1,0 +1,214 @@
+body {
+    background: #f9f9f9;
+
+    hr {
+        display: none;
+    }
+
+    .mg-top-0 {
+        margin-top: 0px;
+    }
+
+    .mg-bt-0 {
+        margin-bottom: 0px;
+    }
+
+    .mg-top-bt-15 {
+        margin: 15px 0px;
+    }
+
+    .lower {
+        span {
+            text-transform: none !important;
+        }
+    }
+
+    .title {
+        font-weight: 700;
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.298039);
+    }
+
+    .gender-area {
+        overflow: hidden;
+        height: 72px;
+        border: 2px solid #ededed !important;
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        padding: 10px 17px;
+    }
+
+    .form {
+        border: 2px solid #ededed !important;
+        background: #ffffff;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        padding: 40px;
+
+        .frm-p-avatar > div {
+            max-width: 160px !important;
+            max-height: 160px !important;
+            margin: 0 auto;
+            border-radius: 100% !important;
+            -moz-border-radius: 100% !important;
+            -webkit-border-radius: 100% !important;
+            overflow: hidden;
+        }
+
+        h3 {
+            color: #383838;
+        }
+
+        .default-area {
+            text-align: center;
+            vertical-align: middle;
+            margin-top: 0px;
+            color: #cdcdcd;
+            cursor: pointer;
+
+            .default-img {
+                position: absolute;
+                top: 50%;
+                margin-top: -30px;
+                left: 50%;
+                margin-left: -40px;
+            }
+
+            img {
+                margin-bottom: 10px;
+            }
+        }
+
+        .planning-pregnancy {
+            width: 100%;
+            margin: 15px 0px;
+            float: left;
+        }
+
+        .patient-gender > div {
+            float: left;
+            width: auto !important;
+            margin-right: 20px;
+        }
+
+        .planning-pregnancy > div {
+            float: left;
+            width: 50% !important;
+        }
+
+        .row-contact:before {
+            display: block;
+            border: 1px solid #ededed !important;
+            margin: 0px 15px 45px 15px;
+        }
+
+        .row-contact:after {
+            display: block;
+            border: 1px solid #ededed !important;
+            margin: 5px 15px;
+        }
+
+        .row-contact {
+            .row {
+                margin-bottom: 15px;
+            }
+        }
+
+        .frm-p-profile {
+            .row {
+                margin-bottom: 30px;
+            }
+        }
+
+        .lbl-change-top {
+            label {
+                top: 15px !important;
+            }
+        }
+
+        .input-border {
+            height: auto !important;
+
+            input,
+            textarea {
+                border: 2px solid #ededed !important;
+                border-radius: 4px;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                height: 72px !important;
+                margin-top: 0px !important;
+                padding: 10px 17px !important;
+            }
+
+            textarea {
+                height: auto !important;
+                padding: 18px !important;
+                padding-top: 60px !important;
+                margin-bottom: 0px !important;
+            }
+
+            label {
+                left: 15px !important;
+                background: #ffffff;
+                z-index: 9;
+                padding: 0px 5px;
+            }
+        }
+
+        .textarea-elm {
+            label {
+                transform: inherit !important;
+            }
+        }
+
+        .patient-gender svg:last-of-type,
+        .planning-pregnancy svg:last-of-type {
+            fill: #fd8b28 !important;
+        }
+
+        .patient-gender svg:first-of-type,
+        .planning-pregnancy svg:first-of-type {
+            fill: #666666 !important;
+        }
+
+        .patient-gender label,
+        .planning-pregnancy label {
+            color: #b0b0b0 !important;
+            font-weight: normal !important;
+        }
+    }
+
+    .btn-save {
+        margin-top: 10px !important;
+
+        button {
+            background: #fd8b28 !important;
+            border-radius: 4px !important;
+            -moz-border-radius: 4px !important;
+            -webkit-border-radius: 4px !important;
+        }
+
+        span {
+            text-transform: none !important;
+        }
+    }
+
+    .btn-back {
+        margin-top: 10px !important;
+
+        button {
+            background: #64B5F6 !important;
+            border-radius: 4px !important;
+            -moz-border-radius: 4px !important;
+            -webkit-border-radius: 4px !important;
+        }
+
+        span {
+            text-transform: none !important;
+        }
+    }
+}

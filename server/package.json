@@ -1,0 +1,58 @@
+{
+    "name": "server-eco-api",
+    "version": "1.0.0",
+    "description": "server eco api",
+    "main": "build/index.js",
+    "jsnext:main": "src/index.js",
+    "scripts": {
+        "babel-node": "babel-node --presets=es2015",
+        "start": "node build/index.js",
+        "dev": "nodemon --watch src build/index.js && nodemon",
+        "build": "babel --presets=es2015 src -d build",
+        "prod": "babel-node server.js",
+        "watch": "nodemon --ignore tests/ --exec npm run babel-node -- server.js",
+        "test": "mocha --compilers js:babel-core/register",
+        "doc": "apidoc -i src/ -o doc/"
+    },
+    "keywords": [
+        "eco"
+    ],
+    "author": "tienlm1509@gmail.com",
+    "license": "ISC",
+    "dependencies": {
+        "acl": "^0.4.10",
+        "async": "^2.1.5",
+        "body-parser": "^1.17.1",
+        "chalk": "^1.1.3",
+        "cors": "^2.8.1",
+        "express": "^4.15.2",
+        "express-jwt": "^5.1.0",
+        "express-validator": "^3.1.2",
+        "jsonwebtoken": "^7.3.0",
+        "lodash": "^4.17.4",
+        "mongodb": "^2.2.24",
+        "mongoose": "^4.8.6",
+        "morgan": "^1.8.1",
+        "multer": "^1.3.0",
+        "swagger-express": "^1.0.5",
+        "validator": "^7.0.0"
+    },
+    "devDependencies": {
+        "babel": "^6.23.0",
+        "babel-cli": "^6.24.0",
+        "babel-core": "^6.24.0",
+        "babel-preset-env": "^1.2.1",
+        "babel-preset-es2015": "^6.24.0",
+        "babel-preset-stage-0": "^6.22.0",
+        "babel-register": "^6.24.0",
+        "bluebird": "^3.5.0",
+        "chai": "^3.5.0",
+        "chai-http": "^2.0.1",
+        "connect-mongo": "^1.3.2",
+        "dotenv": "^4.0.0",
+        "express-session": "^1.15.1",
+        "mocha": "^2.5.3",
+        "nodemon": "^1.11.0",
+        "watch": "^1.0.2"
+    }
+}
