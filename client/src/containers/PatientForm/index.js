@@ -308,8 +308,7 @@ class PatientForm extends Component {
               <TextField
                 className="input-border textarea-elm"
                 floatingLabelText="PAST MEDIACATION"
-                floatingLabelStyle={this.state.pastMediacationLabelTop}
-                textareaStyle={{color: 'red'}}
+                floatingLabelStyle={this.state.pastMediacationLabelTop}                
                 hintText="Mediacation"
                 multiLine={true}
                 fullWidth={true}
