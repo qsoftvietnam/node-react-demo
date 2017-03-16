@@ -6,7 +6,6 @@ TECHNOLOGY
 --------------------------------------------------------------------------------
 
 ```
-- Tech stack: MEAN
 - Backend: NodeJs
 - Frontend: ReactJs (HTML, CSS, SASS, Material, Boostrap, etc.)
 - Database: MongoDB
