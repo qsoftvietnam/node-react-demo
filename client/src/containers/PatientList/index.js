@@ -31,7 +31,7 @@ class PatientList extends Component {
 
     if (auth !== undefined && auth.action !== null) {
         if (auth.action === types.auth.LOGGED_OUT) {
-            browserHistory.push('login');
+            this.props.router.push('login');
         }
     }
 
@@ -49,7 +49,7 @@ class PatientList extends Component {
 
   // onToCreate: this is function to redirect to create patient page
   onToCreate() {
-    this.props.router.push('/patient/create');
+    this.props.router.push('patient/create');
   }
 
   // renderPatientlist: render html for list patient

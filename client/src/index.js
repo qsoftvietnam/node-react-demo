@@ -1,7 +1,7 @@
 //=== import the common packages ===
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, browserHistory} from 'react-router';
+import {Router, Route, browserHistory, hashHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
 import {Provider} from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -14,7 +14,7 @@ class App {
   // constructor: this is function to setup default states & call to the init functions
   constructor() {
     this.state = {
-        history: syncHistoryWithStore(browserHistory, store)
+        history: syncHistoryWithStore(hashHistory, store)
     }
     // call init function of Material
     this.initMaterial();
@@ -46,19 +46,19 @@ class App {
     }
     // redirect to login if authentication is faild
     if (!auth) {
-      browserHistory.push('/');
+      browserHistory.push('/#/');
     }
   }
 
   // routes: this is function contain all route of system. each route will mapping with each pages
   routes() {
     return (
-      <Router history={this.state.history}>
-        <Route path="/" component={pages.Login}/>
-        <Route path="login" component={pages.Login} />
-        <Route path="patient" component={pages.PatientList} onEnter={this.parserAuth()}/>
-        <Route path="patient/create" component={pages.PatientForm} onEnter={this.parserAuth()}/>
-      </Router>
+    <Router history={this.state.history}>
+      <Route path="/" component={pages.Login}/>
+      <Route path="login" component={pages.Login} />
+      <Route path="patient" component={pages.PatientList} onEnter={this.parserAuth()}/>
+      <Route path="patient/create" component={pages.PatientForm} onEnter={this.parserAuth()}/>
+    </Router>
     );
   }
 }

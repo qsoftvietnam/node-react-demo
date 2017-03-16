@@ -9,7 +9,7 @@ import ExpressValidator from 'express-validator';
 import jwt from 'express-jwt';
 import swagger from 'swagger-express';
 import morgan from 'morgan';
-
+import path from 'path';
 
 //=== import internal ===
 import Configs, { Database, App as AppConfig, Jwt as JwtConfig } from './Configs';
@@ -34,6 +34,7 @@ seed();
 app.use(cors());
 
 app.use(Express.static('static'));
+app.use(Express.static('dist'));
 
 //Write log request
 app.use(morgan('combined', AppConfig.logs));
@@ -102,6 +103,10 @@ app.use('/api/v1', expressRouter.use('/patient', Routes.Patient));
 app.use('/api/v1', expressRouter.use('/hospital', Routes.Hospital));
 app.use('/api/v1', expressRouter.use('/upload', Routes.Upload));
 app.use('/api/v1', expressRouter.use('/tag', Routes.Tag));
+
+app.get('*', function (req, res) {
+	res.sendFile(path.join(process.pwd(), './dist/index.html'));
+});
 
 //=== start server ===
 const server = app.listen(AppConfig.port, () => {

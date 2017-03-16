@@ -25,7 +25,7 @@ class Login extends Component {
         const {auth} = this.props;
         // redirect to list patient page if user authenticated
         if (auth.isLogged || JSON.parse(localStorage.getItem('auth'))) {
-            browserHistory.push('patient');
+            this.props.router.push('patient');
         }
     }
 
@@ -40,7 +40,8 @@ class Login extends Component {
 
     if (auth !== undefined && auth.action !== null) {
         if (auth.action === types.auth.LOGGED_IN) {
-            browserHistory.push('patient');
+            // browserHistory.push('patient');
+            this.props.router.push('patient');
         }
 
         if (auth.action === types.auth.LOGGED_OUT) {
@@ -77,6 +78,12 @@ class Login extends Component {
     this.setState({[key]: value});
   }
 
+  onKeyPress = (event) => {
+      if(event.key == 'Enter') {
+         this.onLogin();
+      }
+  }
+
   // render: this is function to render all element of login page into dom
   render() {
     return (
@@ -101,6 +108,7 @@ class Login extends Component {
                           fullWidth={true}
                           rows={1}
                           onChange={(event, value) => {this.onChangeValue('username', value)}}
+                          onKeyPress={this.onKeyPress}
                         />
                     </Row>
                     <Row>
@@ -112,6 +120,7 @@ class Login extends Component {
                           rows={1}
                           type={'password'}
                           onChange={(event, value) => {this.onChangeValue('password', value)}}
+                          onKeyPress={this.onKeyPress}
                         />
                     </Row>
                     <Row>

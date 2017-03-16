@@ -11,6 +11,7 @@ import './styles.scss'; // import styles of create patient page
 import {actions, types} from '../../middle'; // call to actions & types (redux)
 import {FetchHelper} from '../../middle/src/services';  // call to actions & types (redux)
 import 'whatwg-fetch';
+import config from '../../config'
 
 // map data of redux
 const mapStateToProps = (state) => {
@@ -97,7 +98,7 @@ class PatientForm extends Component {
             let form = new FormData();
             form.append('avatar', file, file.name);
 
-            fetch('http://localhost:3002/api/v1/upload', {
+            fetch(config.apiPath + 'upload', {
               method: 'POST',
               headers: {
                 'Authorization': 'Bearer ' + FetchHelper.token
@@ -139,7 +140,8 @@ class PatientForm extends Component {
 
         if (value === '') {
           this.state.isValid = false;
-          this.state.errorText[name] = 'This '+ fields[name] +' is required';
+
+          this.state.errorText[name] = (name == 'patientId') ? 'This '+ fields[name] +' must be a number and required' : 'This '+ fields[name] +' is required';
         }
 
         this.setState({isValid: this.state.isValid, errorText: this.state.errorText});

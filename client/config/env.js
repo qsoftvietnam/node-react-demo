@@ -5,6 +5,8 @@
 
 var REACT_APP = /^REACT_APP_/i;
 
+process.env.PORT = 3001
+
 function getClientEnvironment(publicUrl) {
     var raw = Object
     .keys(process.env)
