@@ -63,6 +63,9 @@ class PatientForm extends Component {
       pastMediacationLabelTop: styles.textAreaLabelTop,
       tagLabelTop: styles.textAreaLabelTop,
       elaborateLabelTop: styles.textAreaLabelTop,
+      pastMediacationPadding: styles.textAreaPadding,
+      tagPadding: styles.textAreaPadding,
+      elaboratePadding: styles.textAreaPadding,
       maxDate: new Date()
     }
   }
@@ -192,10 +195,16 @@ class PatientForm extends Component {
         this.setState({patient: this.state.patient});
 
         if(type == 'textarea') {
+            var objChangeTopState = {};
+            var objChangePaddingState = {};
+
             var attrLabelTop = name + 'LabelTop';
-            var objChangeState = {};
-            objChangeState[attrLabelTop] = (value.length > 0) ? styles.textAreaLabelFocusTop : styles.textAreaLabelTop;
-            this.setState(objChangeState);
+            objChangeTopState[attrLabelTop] = (value.length > 0) ? styles.textAreaLabelFocusTop : styles.textAreaLabelTop;
+            this.setState(objChangeTopState);
+
+            var attrLabelPadding = name + 'Padding';
+            objChangePaddingState[attrLabelPadding] = (value.length > 0) ? styles.textAreaFocusPadding : styles.textAreaPadding;
+            this.setState(objChangePaddingState);
         }
       }
   }
@@ -308,7 +317,8 @@ class PatientForm extends Component {
               <TextField
                 className="input-border textarea-elm"
                 floatingLabelText="PAST MEDIACATION"
-                floatingLabelStyle={this.state.pastMediacationLabelTop}                
+                floatingLabelStyle={this.state.pastMediacationLabelTop}
+                textareaStyle={this.state.pastMediacationPadding}
                 hintText="Mediacation"
                 multiLine={true}
                 fullWidth={true}
@@ -327,6 +337,7 @@ class PatientForm extends Component {
                 className="input-border textarea-elm"
                 floatingLabelText="TAG"
                 floatingLabelStyle={this.state.tagLabelTop}
+                textareaStyle={this.state.tagPadding}
                 hintText="Add a tag"
                 multiLine={true}
                 fullWidth={true}
@@ -426,6 +437,7 @@ class PatientForm extends Component {
                     className="input-border"
                     floatingLabelText="IF YES, PLEASE ELABORATE"
                     floatingLabelStyle={this.state.elaborateLabelTop}
+                    textareaStyle={this.state.elaboratePadding}
                     hintText="Elaborate"
                     multiLine={true}
                     fullWidth={true}
@@ -519,5 +531,11 @@ const styles = {
   textAreaLabelFocusTop: {
       top: '-15px',
       fontSize: '12px'
+  },
+  textAreaPadding: {
+      padding: '60px 18px 18px 18px'
+  },
+  textAreaFocusPadding: {
+      padding: '20px 18px 18px 18px'
   }
 };

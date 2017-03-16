@@ -133,8 +133,7 @@ body {
         .input-border {
             height: auto !important;
 
-            input,
-            textarea {
+            input {
                 border: 2px solid #ededed !important;
                 border-radius: 4px;
                 -moz-border-radius: 4px;
@@ -145,9 +144,12 @@ body {
             }
 
             textarea {
-                height: auto !important;
-                padding: 18px !important;
-                padding-top: 60px !important;
+                border: 2px solid #ededed !important;
+                border-radius: 4px;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                margin-top: 0px !important;
+                height: auto !important;                
                 margin-bottom: 0px !important;
             }
 
