@@ -22,6 +22,7 @@ const PatientSchema = new Schema({
                     cb(true);
                 });                
             },
+            message: '{PATH} with value {VALUE} already exists!'
         }
     },
     patientName: {

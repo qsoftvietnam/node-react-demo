@@ -272,7 +272,6 @@ class PatientForm extends Component {
   render() {
     let defaultDate = this.state.patient.birthday !== null ? new Date(this.state.patient.birthday) : null;
 
-    console.log(this.state.patient);
     return (
       <MuiThemeProvider>
         <Grid className="form">
@@ -295,7 +294,7 @@ class PatientForm extends Component {
                     <Col className="lbl-change-top" sm={6} xs={12}>
                       <TextField
                         className="input-border"
-                        floatingLabelText="PATIENT ID"
+                        floatingLabelText="PATIENT ID (Only Number)"
                         multiLine={false}
                         fullWidth={true}
                         rows={1}

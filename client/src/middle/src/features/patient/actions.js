@@ -142,7 +142,6 @@ function deletePatient(params, identity) {
       params,
       mappers,
       (result) => {
-        console.log(result);
         dispatch(patientDelete(result, identity));
       },
       (faild) => {

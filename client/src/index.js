@@ -40,6 +40,7 @@ class App {
   // parserAuth: this is function to check authenticate & apply the direct with the cases
   parserAuth(nextState, replace) {
     let auth = JSON.parse(localStorage.getItem('auth'));
+
     // set token if user authenticated
     if (auth) {
       FetchHelper.token = auth.token;
