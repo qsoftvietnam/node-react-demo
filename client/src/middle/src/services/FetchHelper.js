@@ -128,7 +128,7 @@ class FetchHelper {
     .done();
   }
 
-  postEncode(url, params, mappers, sucess, failed, error) {
+  postEncode(url, method, params, mappers, sucess, failed, error) {
     if (mappers !== undefined && typeof mappers !== 'object') {
       return false;
     }
@@ -164,7 +164,7 @@ class FetchHelper {
     }
 
     fetch(url, {
-      method: 'POST',
+      method: method || 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',

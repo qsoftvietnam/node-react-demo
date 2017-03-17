@@ -55,13 +55,13 @@ class PatientController {
     }
 
     /**
-     * @api {get} /api/v1/patient/:id Read patient
+     * @api {get} /api/v1/patient/:patientId Read patient
      * @apiName read patient
      * @apiGroup Patient
      * @apiPermission auth
-     * @apiParam {ObjectId} id
+     * @apiParam {Number} patientId
      * @apiSuccess {ObjectId} _id
-     * @apiSuccess {Integer} patientId   Patient ID
+     * @apiSuccess {Number} patientId   Patient ID
      * @apiSuccess {String} patientName  Patient name.
      * @apiSuccess {Date} [birthday]  birthday
      * @apiSuccess {String} [gender=male]  male|female
@@ -88,7 +88,7 @@ class PatientController {
      * @api {post} /api/v1/patient Create patient
      * @apiGroup Patient
      * @apiPermission auth
-     * @apiParam {Integer} patientId   Patient ID
+     * @apiParam {Number} patientId   Patient ID
      * @apiParam {String} patientName  Patient name.
      * @apiParam {Date} [birthday]  birthday
      * @apiParam {String} [gender=male]  male|female
@@ -107,7 +107,7 @@ class PatientController {
      * @apiParam {String} [contacts.postalCode]
      * 
      * @apiSuccess {ObjectId} _id
-     * @apiSuccess {Integer} patientId   Patient ID
+     * @apiSuccess {Number} patientId   Patient ID
      * @apiSuccess {String} patientName  Patient name.
      * @apiSuccess {Date} [birthday]  birthday
      * @apiSuccess {String} [gender=male]  male|female
@@ -130,14 +130,6 @@ class PatientController {
 
         let patient = new Patient(req.body);
 
-        Patient.schema.path('patientId').validate(function (value, done) {
-            Patient.findOne({ patientId: value }).then(doc => {
-                done(!doc);
-            }, err => {
-                done(true);
-            });
-        }, '{PATH} with value {VALUE} already exist!');
-
         patient.validate((err) => {
             if (err) {
                 const messages = generateErrors(err.errors);
@@ -158,11 +150,10 @@ class PatientController {
     }
 
     /**
-     * @api {put} /api/v1/patient/:id Update patient
+     * @api {put} /api/v1/patient/:patientId Update patient
      * @apiGroup Patient
      * @apiPermission auth
-     * @apiParam {ObjectId} id
-     * @apiParam {Integer} [patientId]   Patient ID
+     * @apiParam {Number} patientId
      * @apiParam {String} [patientName]  Patient name.
      * @apiParam {Date} [birthday]  birthday
      * @apiParam {String} [gender=male]  male|female
@@ -174,7 +165,7 @@ class PatientController {
      * @apiParam {String} [phone]
      * 
      * @apiSuccess {ObjectId} _id
-     * @apiSuccess {Integer} patientId   Patient ID
+     * @apiSuccess {Number} patientId   Patient ID
      * @apiSuccess {String} patientName  Patient name.
      * @apiSuccess {Date} [birthday]  birthday
      * @apiSuccess {String} [gender=male]  male|female
@@ -191,21 +182,12 @@ class PatientController {
      * @apiVersion 1.0.0
      */
     update(req, res) {
-        delete req.body.id;
+        delete req.body._id;
+        delete req.body.patientId;
         delete req.body.contacts;
         let patient = req.patient;
-        patient.set(req.body);
 
-        Patient.schema.path('patientId').validate(function (value, done) {
-            Patient.findOne({
-                patientId: value,
-                _id: { '$ne': patient._id }
-            }).then(doc => {
-                done(!doc);
-            }, err => {
-                done(true);
-            });
-        }, '{PATH} with value {VALUE} already exist!');
+        patient.set(req.body);
 
         patient.validate((err) => {
             if (err) {
@@ -213,7 +195,7 @@ class PatientController {
                 return res.status(400).send({
                     validate: messages
                 });
-            }
+            }            
 
             patient.save().then(data => {
                 return res.json(data);
@@ -226,15 +208,15 @@ class PatientController {
     }
 
     /**
-     * @api {delete} /api/v1/patient/:id Remove patient
+     * @api {delete} /api/v1/patient/:patientId Remove patient
      * @apiGroup Patient
      * @apiPermission auth
-     * @apiParam {ObjectId} id
+     * @apiParam {Number} patientId
      * @apiSuccess {Json} Object Object for patient.
      * @apiVersion 1.0.0
      */
     remove(req, res) {
-        req.patient.remove().then(() => {
+        req.patient.remove().then((data) => {
             return res.json(data);
         }, err => {
             return res.status(400).send({
@@ -245,13 +227,19 @@ class PatientController {
 
     getPatientByID(req, res, next, id) {
 
-        if (!mongoose.Types.ObjectId.isValid(id)) {
+        // if (!mongoose.Types.ObjectId.isValid(id)) {
+        //     return res.status(400).send({
+        //         message: 'Patient is invalid'
+        //     });
+        // }
+
+        if (!validator.isNumeric(id)) {
             return res.status(400).send({
                 message: 'Patient is invalid'
             });
         }
 
-        Patient.findById(id).then(data => {
+        Patient.findOne({ patientId: id }).then(data => {
             if (!data) {
                 return res.status(400).send({
                     message: 'No Patient with that identifier has been found'

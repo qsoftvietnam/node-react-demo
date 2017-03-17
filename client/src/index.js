@@ -58,6 +58,7 @@ class App {
       <Route path="login" component={pages.Login} />
       <Route path="patient" component={pages.PatientList} onEnter={this.parserAuth()}/>
       <Route path="patient/create" component={pages.PatientForm} onEnter={this.parserAuth()}/>
+      <Route path="patient/:patientId" component={pages.PatientForm} onEnter={this.parserAuth()}/>
     </Router>
     );
   }

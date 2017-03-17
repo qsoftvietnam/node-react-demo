@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row} from 'react-bootstrap';
-import {browserHistory} from 'react-router';
 import {MuiThemeProvider, TextField, RaisedButton, Checkbox, Snackbar} from 'material-ui';
 /*=== import internal ===*/
 import './styles.scss'; // import styles of login page
@@ -40,7 +39,6 @@ class Login extends Component {
 
     if (auth !== undefined && auth.action !== null) {
         if (auth.action === types.auth.LOGGED_IN) {
-            // browserHistory.push('patient');
             this.props.router.push('patient');
         }
 
@@ -50,7 +48,6 @@ class Login extends Component {
 
         if (auth.action === types.auth.LOGGED_ERROR) {
             console.log('LOGGED_ERROR');
-            console.log(auth);
         }
 
         if (auth.action === types.auth.REMEMBER_CHANGE) {
@@ -79,7 +76,7 @@ class Login extends Component {
   }
 
   onKeyPress = (event) => {
-      if(event.key == 'Enter') {
+      if(event.key === 'Enter') {
          this.onLogin();
       }
   }

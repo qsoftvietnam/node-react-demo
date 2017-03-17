@@ -8,9 +8,9 @@
 }
 
 .cover-list {
-    background-color: #f9f9f9;
-    overflow: hidden;
-    padding: 15px 30px;
+  background-color: #f9f9f9;
+  overflow: hidden;
+  padding: 15px 30px;
 }
 
 .media-content {
@@ -24,16 +24,17 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .lbl-new {
-    background: #83cd1f;
-    font-weight: normal;
-    border-radius: 0px;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    position: relative;
-    float: left;
+  background: #83cd1f;
+  font-weight: normal;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  position: relative;
+  float: left;
 }
 
 .lbl-new:before {
@@ -176,6 +177,15 @@
           padding-right: 10px;
         }
       }
+    }
+
+    .p-l-image {
+      cursor: pointer;
+    }
+
+    .p-l-actions {
+      vertical-align: middle;
+      text-align: center;
     }
   }
 }

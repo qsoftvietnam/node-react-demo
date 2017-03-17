@@ -3,8 +3,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import {Col, Row, Media, Form, FormGroup, ControlLabel, FormControl, Button, Label} from 'react-bootstrap';
-import {MuiThemeProvider, FontIcon, RaisedButton} from 'material-ui';
-import {browserHistory} from 'react-router';
+import {MuiThemeProvider, Dialog, FontIcon, FlatButton, FloatingActionButton} from 'material-ui';
 /*=== import internal ===*/
 import './styles.scss'; // import styles of list patient page
 import {actions, types} from '../../middle';  // call to actions & types (redux)
@@ -16,13 +15,16 @@ class PatientList extends Component {
     super(props);
 
     this.state = {
-      patients: []
+      patients: [],
+      patient: null,
+      openMessage: false,
+      message: ''
     };
   }
 
   // componentWillMount: this function will called before render (lifecycle react)
   componentWillMount() {
-    this.props.dispatch(actions.patient.fetchPatient());
+    this.fetch();
   }
 
   // componentWillReceiveProps: this function will called when have a new props or prop received a new value (lifecycle react)
@@ -36,10 +38,23 @@ class PatientList extends Component {
     }
 
     if (patient !== undefined && patient.action !== null) {
-        if (patient.action === types.patient.PATIENT_FETCH && patient.list.length > 0) {
+        if (patient.action === types.patient.PATIENT_FETCH && patient.list !== null) {
           this.setState({patients: patient.list});
         }
+
+        if (patient.action === types.patient.PATIENT_DELETE) {
+          this.fetch();
+        }
+
+        if (patient.action === types.patient.PATIENT_DELETE_FAILD) {
+
+        }
     }
+  }
+
+  // fetch: this is function to fetch data
+  fetch() {
+    this.props.dispatch(actions.patient.fetchPatient());
   }
 
   // onLogout: this is function to logout
@@ -48,19 +63,45 @@ class PatientList extends Component {
   }
 
   // onToCreate: this is function to redirect to create patient page
-  onToCreate() {
-    this.props.router.push('patient/create');
+  onToPage(route) {
+    if (route !== undefined) {
+      this.props.router.push(route);
+    }
+  }
+
+  // openMessage: this is function to open popup
+  openMessage(open) {
+    let message = '';
+
+    if (open) {
+      message = 'Delete this patient?'
+    }
+
+    this.setState({openMessage: open, message: message});
+  }
+
+  // onPreDetelePatient: this is function to attach patient before delete
+  onPreDetelePatient(patient) {
+    this.openMessage(true);
+    this.setState({patient: patient});
+  }
+
+  // onDeletePatient: this is function to delete a patient
+  onDeletePatient() {
+    this.openMessage(false);
+    this.props.dispatch(actions.patient.deletePatient(this.state.patient, this.state.patient));
   }
 
   // renderPatientlist: render html for list patient
   renderPatientlist(patient) {
     return (
       <Media key={patient._id}>
-        <Media.Left align="top">
-          <img width={84} height={84} src={config.serverPath + patient.photo} alt="Image"/>
+        <Media.Left className="p-l-image" align="top"  onClick={() => {this.onToPage('patient/' + patient.patientId)}}>
+          <img  width={84} height={84} src={config.serverPath + patient.photo} alt="Image"/>
         </Media.Left>
         <Media.Body className="media-content">
-          <Media.Heading><p><span className="lbl-title">{patient.patientName}</span> <Label className="lbl-new">New</Label></p></Media.Heading>
+          <Media.Heading><p><span className="lbl-title" onClick={() => {this.onToPage('patient/' + patient.patientId)}}>{patient.patientName}</span> <Label className="lbl-new">New</Label></p></Media.Heading>
+
           <div className="p-l-state">
             <span>CP</span>
             <span>Full time</span>
@@ -84,7 +125,15 @@ class PatientList extends Component {
             <span>{patient.address || '--'}</span>
           </div>
         </Media.Body>
-        <Media.Body></Media.Body>
+        <Media.Body className="p-l-actions">
+          <FloatingActionButton
+            mini={true}
+            secondary={true}
+            onTouchTap={() => {this.onPreDetelePatient(patient)}}
+          >
+            <FontIcon className="fa fa-trash" style={{fontSize: '14px'}}/>
+          </FloatingActionButton>
+        </Media.Body>
       </Media>
     );
   }
@@ -152,7 +201,7 @@ class PatientList extends Component {
                         <h3 className="patient-list-title">{this.state.patients.length} Results</h3>
                       </Col>
                       <Col className="text-right" sm={6} xs={12}>
-                        <Button bsStyle="success" type="button" onClick={() => {this.onToCreate()}}>
+                        <Button bsStyle="success" type="button" onClick={() => {this.onToPage('patient/create')}}>
                           <FontIcon className="fa fa-plus" style={{color: '#ffffff', fontSize: '14px', marginRight: '5px'}}/>
                           <span>Create</span>
                         </Button>
@@ -170,6 +219,27 @@ class PatientList extends Component {
               </Col>
             </Row>
           </section>
+
+          <Dialog
+            title="Confirm"
+            actions={[
+              <FlatButton
+                label="Cancel"
+                primary={true}
+                keyboardFocused={true}
+                onTouchTap={() => {this.openMessage(false)}}
+              />,
+              <FlatButton
+                label="Ok"
+                primary={true}
+                keyboardFocused={true}
+                onTouchTap={() => {this.onDeletePatient()}}
+              />
+            ]}
+            open={this.state.openMessage}
+          >
+            {this.state.message}
+          </Dialog>
         </div>
       </MuiThemeProvider>
     )

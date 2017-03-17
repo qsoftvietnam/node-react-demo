@@ -104,7 +104,7 @@ app.use('/api/v1', expressRouter.use('/hospital', Routes.Hospital));
 app.use('/api/v1', expressRouter.use('/upload', Routes.Upload));
 app.use('/api/v1', expressRouter.use('/tag', Routes.Tag));
 
-app.get('*', function (req, res) {
+app.get('/', function (req, res) {
 	res.sendFile(path.join(process.pwd(), './dist/index.html'));
 });
 

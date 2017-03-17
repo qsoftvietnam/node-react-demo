@@ -40,6 +40,7 @@ function login(params) {
 
     FetchHelper.postEncode(
         ApiUrl.login,
+        undefined,
         params,
         undefined,
         (res) => {

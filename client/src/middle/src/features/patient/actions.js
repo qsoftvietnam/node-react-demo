@@ -15,6 +15,19 @@ function patientReset() {
     };
 }
 
+function patientAttach(identity) {
+  return {
+    type: Types.PATIENT_ATTACH,
+    identity
+  };
+}
+
+function patientClear() {
+  return {
+    type: Types.PATIENT_CLEAR
+  };
+}
+
 function patientSave(patient) {
     return {
         type: Types.PATIENT_SAVE,
@@ -33,6 +46,21 @@ function patientSaveError(error) {
     return {
         type: Types.PATIENT_SAVE_ERROR,
         error
+    };
+}
+
+function patientDelete(result, identity) {
+    return {
+        type: Types.PATIENT_DELETE,
+        result,
+        identity
+    };
+}
+
+function patientDeleteFaild(identity) {
+    return {
+        type: Types.PATIENT_DELETE_FAILD,
+        identity
     };
 }
 
@@ -56,12 +84,38 @@ function fetchPatient(params, type) {
   }
 }
 
-function savePatient(params, sucess) {
+function initPatient(params, type) {
+  return (dispatch) => {
+    const {patientId} = params;
+    let mappers = ['patientId'];
+
+    FetchHelper.get(
+        ApiUrl.patient + '/' + patientId,
+        {},
+        undefined,
+        (res) => {
+            dispatch(patientAttach(res));
+        },
+        (faild) => {
+            dispatch(patientClear());
+        },
+        (error) => {
+            dispatch(patientClear());
+        }
+    );
+  }
+}
+
+function savePatient(params, editable) {
   return (dispatch) => {
     let mappers = [];
+    let {patientId} = params;
+    let method = !editable ? 'POST' : 'PUT';
+    let url = !editable ? ApiUrl.patient : ApiUrl.patient + '/' + patientId;
 
     FetchHelper.postEncode(
-        ApiUrl.patient,
+        url,
+        method,
         params,
         mappers,
         (res) => {
@@ -77,10 +131,38 @@ function savePatient(params, sucess) {
   }
 }
 
+function deletePatient(params, identity) {
+  return (dispatch) => {
+    let promise = null;
+    let mappers = ['patientId'];
+
+    FetchHelper.postEncode(
+      ApiUrl.patient + '/' + params.patientId,
+      'DELETE',
+      params,
+      mappers,
+      (result) => {
+        console.log(result);
+        dispatch(patientDelete(result, identity));
+      },
+      (faild) => {
+        dispatch(patientDeleteFaild(identity));
+      },
+      (error) => {
+        dispatch(patientDeleteFaild(identity));
+      }
+    );
+
+    return promise;
+  }
+}
+
 export default {
   patientFetch,
   patientReset,
   fetchPatient,
   savePatient,
-  patientSave
+  initPatient,
+  patientSave,
+  deletePatient
 }

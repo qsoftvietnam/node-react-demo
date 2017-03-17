@@ -7,7 +7,22 @@ const PatientSchema = new Schema({
     patientId: {
         type: Number,
         required: true,
-        unique: true
+        unique: true,
+        validate: {
+            isAsync: true,
+            validator: function (v, cb) {
+                const self = this;
+                const Patient = self.model('Patient');
+                Patient.findOne({
+                    patientId: v,
+                    _id: { '$ne': self._id }
+                }).then(doc => {
+                    cb(!doc);
+                }, err => {
+                    cb(true);
+                });                
+            },
+        }
     },
     patientName: {
         type: String,

@@ -28,6 +28,7 @@ class PatientForm extends Component {
     super(props);
 
     this.state = {
+      editable: false,
       patient : { // the attribute of a patient
         patientId: '',
         patientName: '',
@@ -59,7 +60,7 @@ class PatientForm extends Component {
       },
       file: null,
       notificationType: null,
-      message: '',
+      message: 'Form Invalid !',
       openMessage: false,
       pastMediacationLabelTop: styles.textAreaLabelTop,
       tagLabelTop: styles.textAreaLabelTop,
@@ -71,22 +72,41 @@ class PatientForm extends Component {
     }
   }
 
+  // componentWillMount: this function will called before call funtion render
+  componentWillMount() {
+    const {params, params: {patientId}} = this.props.router;
+
+    if (patientId) {
+      this.props.dispatch(actions.patient.initPatient(params)); // call to inpit patient action in middle (redux)
+    }
+  }
+
   // componentWillReceiveProps: this function will called when have a new props or prop received a new value (lifecycle react)
   componentWillReceiveProps(props) {
     const {patient} = props;
 
     if (patient !== undefined && patient.action !== null) {
-        if (patient.action === types.patient.PATIENT_SAVE) {
-          this.setState({openMessage: true, message: 'Save patient successfully !'});
-        }
+      if (patient.action === types.patient.PATIENT_ATTACH) {
+        if (patient.attach !== null) {
+          if (patient.attach.birthday !== undefined) {
+            patient.attach.birthday = moment(patient.attach.birthday).format();
+          }
 
-        if (patient.action === types.patient.PATIENT_SAVE_FAILD && patient.saveFaild !== undefined && patient.saveFaild.validate !== undefined ) {
-            this.setState({isValid: false, message: 'Form Invalid !', errorText: patient.saveFaild.validate});
+          this.setState({editable: true, patient: Object.assign({}, this.state.patient, patient.attach)});
         }
+      }
 
-        if (patient.action === types.patient.PATIENT_SAVE_ERROR) {
-          this.setState({isValid: false, message: 'An error happen in process data or internet quality.'});
-        }
+      if (patient.action === types.patient.PATIENT_SAVE) {
+        this.setState({openMessage: true, message: 'Save patient successfully !'});
+      }
+
+      if (patient.action === types.patient.PATIENT_SAVE_FAILD && patient.saveFaild !== undefined && patient.saveFaild.validate !== undefined ) {
+          this.setState({isValid: false, message: 'Form Invalid !', errorText: patient.saveFaild.validate});
+      }
+
+      if (patient.action === types.patient.PATIENT_SAVE_ERROR) {
+        this.setState({isValid: false, message: 'An error happen in process data or internet quality.'});
+      }
     }
   }
 
@@ -169,7 +189,9 @@ class PatientForm extends Component {
     let {patient, patient:{birthday}} = this.state;
 
     for (let [name, value] of Object.entries(patient)) {
-      if (value !== '' && value !== null) {
+      let ignore = ['_id', '__v', 'contacts', 'createdAt', 'tags', 'updatedAt'];
+
+      if (value !== null && !(ignore.indexOf(name) >= 0)) {
         results[name] = value;
       }
     }
@@ -220,7 +242,7 @@ class PatientForm extends Component {
     }
 
     if (this.state.isValid) {
-      this.props.dispatch(actions.patient.savePatient(this.convertDatas())); // call to save action in middle (redux)
+      this.props.dispatch(actions.patient.savePatient(this.convertDatas(), this.state.editable)); // call to save action in middle (redux)
     }
   }
 
@@ -229,8 +251,28 @@ class PatientForm extends Component {
     this.props.router.push('/patient');
   }
 
+  // renderImagePreview: this is function to render element preview image
+  renderImagePreview() {
+    if (this.state.file !== null) {
+      return (
+        <img src={this.state.file.preview} />
+      );
+    }
+
+    if (this.state.file === null && this.state.patient.photo !== null) {
+      return (
+        <div className="preview-img">
+          <img src={config.serverPath + this.state.patient.photo} />
+        </div>
+      );
+    }
+  }
+
   // render: this is function to render all element of create patient page into dom
   render() {
+    let defaultDate = this.state.patient.birthday !== null ? new Date(this.state.patient.birthday) : null;
+
+    console.log(this.state.patient);
     return (
       <MuiThemeProvider>
         <Grid className="form">
@@ -244,9 +286,7 @@ class PatientForm extends Component {
                                 <img src="/images/camera.png"/>
                                 <div>Profile photo</div>
                             </div>
-                            <div className="preview-img">
-                                {this.state.file !== null ? <img src={this.state.file.preview} /> : null}
-                            </div>
+                            {this.renderImagePreview()}
                         </div>
                     </Dropzone>
                 </Col>
@@ -264,6 +304,7 @@ class PatientForm extends Component {
                         onChange={(event, value)=>this.onChangeValue(event.target.name, value, 'text')}
                         errorText={this.state.errorText.patientId}
                         errorStyle={styles.errorTextField}
+                        disabled={this.state.editable}
                       />
                     </Col>
                     <Col className="lbl-change-top" sm={6} xs={12}>
@@ -289,7 +330,7 @@ class PatientForm extends Component {
                         floatingLabelText="BIRTHDAY"
                         fullWidth={true}
                         textFieldStyle={{height: '72px'}}
-                        value={this.state.patient.birthday}
+                        value={defaultDate}
                         onChange={(firstParam, value)=>this.onChangeValue('birthday', value, 'text')}
                         maxDate={this.state.maxDate}
                         errorText={this.state.errorText.birthday}
@@ -299,7 +340,12 @@ class PatientForm extends Component {
                     <Col className="lbl-not-top" sm={6} xs={12}>
                         <div className="gender-area">
                             <label className="title">GENDER</label>
-                            <RadioButtonGroup name="gender" className="patient-gender" defaultSelected={this.state.patient.gender} onChange={(event, value)=>this.onChangeValue(event.target.name, value, 'radio')}>
+                            <RadioButtonGroup
+                              name="gender"
+                              className="patient-gender"
+                              valueSelected={this.state.patient.gender}
+                              onChange={(event, value)=>this.onChangeValue(event.target.name, value, 'radio')}
+                            >
                               <RadioButton
                                 value="male"
                                 label="Male"
@@ -423,7 +469,12 @@ class PatientForm extends Component {
             <Col sm={12} xs={12}>
                 <div className="row-fluid">
                   <h3>Are you planning for pregnancy?</h3>
-                  <RadioButtonGroup name="planningPregnancy" className="planning-pregnancy" defaultSelected={this.state.patient.planningPregnancy} onChange={(event, value)=>this.onChangeValue(event.target.name, value, 'radio')}>
+                  <RadioButtonGroup
+                    name="planningPregnancy"
+                    className="planning-pregnancy"
+                    valueSelected={this.state.patient.planningPregnancy}
+                    onChange={(event, value)=>this.onChangeValue(event.target.name, value, 'radio')}
+                  >
                       <RadioButton
                         value={true}
                         label="Yes"

@@ -9,15 +9,15 @@ Router.route('/')
     .get(AuthPolicy.requireLogin, Patient.list)
     .post(AuthPolicy.requireLogin, Patient.create);
 
-Router.route('/:patientId')
+Router.route('/:patientId(\\d+)/')
     .get(AuthPolicy.requireLogin, Patient.read)
     .put(AuthPolicy.requireLogin, Patient.update)
     .delete(AuthPolicy.requireLogin, Patient.remove);
 
-Router.route('/:patientId/contact')
+Router.route('/:patientId(\\d+)/contact')
     .post(Contact.create);
 
-Router.route('/:patientId/contact/:contactId')
+Router.route('/:patientId(\\d+)/contact/:contactId')
     .delete(Contact.remove)
     .put(Contact.update);
 
